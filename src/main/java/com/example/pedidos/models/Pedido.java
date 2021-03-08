@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Pedido {
 	
+	
+	
+	
+	private Estados estados;
 
 	private Integer id;
 	private Usuario user;
@@ -96,6 +100,22 @@ public class Pedido {
 
 	public void setValorTotalProductos(Double valorTotalProductos) {
 		this.valorTotalProductos = valorTotalProductos;
+	}
+
+	public Estados getEstados() {
+		return estados;
+	}
+
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+
+	public Double getValorDomicilio() {
+		return valorDomicilio;
+	}
+
+	public void setValorDomicilio(Double valorDomicilio) {
+		this.valorDomicilio = valorDomicilio;
 	}
 	
 

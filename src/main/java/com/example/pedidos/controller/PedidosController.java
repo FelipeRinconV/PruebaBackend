@@ -6,14 +6,17 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.pedidos.datasource.Datasource;
+import com.example.pedidos.dto.FacturaCanceladoDto;
 import com.example.pedidos.dto.PedidoInputDto;
 import com.example.pedidos.dto.PedidoNuevoDto;
 import com.example.pedidos.dto.PedidoOutPutDto;
+import com.example.pedidos.models.Estados;
 import com.example.pedidos.models.LineaPedido;
 import com.example.pedidos.models.Pedido;
 import com.example.pedidos.models.Producto;
@@ -26,15 +29,15 @@ public class PedidosController {
 
 	Datasource data = new Datasource();
 
-	@RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-	public ResponseEntity<PedidoOutPutDto> createOrder(@RequestBody PedidoInputDto pedidoInput) {
+	@RequestMapping(value = "/crearPedido", method = RequestMethod.POST)
+	public ResponseEntity<PedidoOutPutDto> crearPedido(@RequestBody PedidoInputDto pedidoInput) {
 		try {
 			PedidoOutPutDto pedidoOuput = new PedidoOutPutDto();
 
 			Usuario user = pedidoInput.getUser();
 			// Se verifica el caso de uso
 			String dire = pedidoInput.getUser().getDireccion().replaceAll(" ", "");
-			
+
 			if (user.getCedula().equals("12345") && dire.equals("11#14-08")) {
 
 				double total = 0;
@@ -64,7 +67,9 @@ public class PedidosController {
 						pedido.setValorDomiciolio((double) 0);
 						pedido.setValorTotalProductos(total);
 						pedido.setTotalPedido(total + pedido.getValueIva());
+						pedido.setEstados(Estados.APROVADO);
 						data.insertPedido(pedido);
+						
 
 						pedidoOuput.setMensaje("El pedido fue asignado con exito.");
 						pedidoOuput.setPedido(pedido);
@@ -75,10 +80,12 @@ public class PedidosController {
 						pedido.setValorDomiciolio((double) 8000);
 						pedido.setValorTotalProductos(total);
 						pedido.setTotalPedido(total + pedido.getValueIva() + pedido.getValorDomiciolio());
-
+						pedido.setEstados(Estados.APROVADO);
 						data.insertPedido(pedido);
+						
 						pedidoOuput.setMensaje("El pedido fue asignado con exito.");
 						pedidoOuput.setPedido(pedido);
+						
 						return new ResponseEntity<>(pedidoOuput, HttpStatus.CREATED);
 
 					}
@@ -88,7 +95,7 @@ public class PedidosController {
 				}
 			} else {
 				pedidoOuput.setPedido(null);
-				pedidoOuput.setMensaje("No se especifico caso de uso para estos parametros ..");
+				pedidoOuput.setMensaje("No se especifico caso de uso para estos parametrosl.");
 				return new ResponseEntity<>(pedidoOuput, HttpStatus.NOT_IMPLEMENTED);
 			}
 
@@ -122,18 +129,19 @@ public class PedidosController {
 					pedidoOutPutDto.setPedido(null);
 					return new ResponseEntity<>(pedidoOutPutDto, HttpStatus.NOT_FOUND);
 				}
-				valorProductosNuevos += producto.getPrecio()*newPedido.getLineasPedido().get(i).getCantidadProducto();
+				valorProductosNuevos += producto.getPrecio() * newPedido.getLineasPedido().get(i).getCantidadProducto();
 			}
 
 			double valorProductosAnteriores = 0;
 			for (int i = 0; i < pedidoActual.getListaProductos().size(); i++) {
 				int idProducto = pedidoActual.getListaProductos().get(i).getIdProducto();
 				Producto producto = data.getProducto(idProducto);
-				valorProductosAnteriores += producto.getPrecio() * pedidoActual.getListaProductos().get(i).getCantidadProducto();
+				valorProductosAnteriores += producto.getPrecio()
+						* pedidoActual.getListaProductos().get(i).getCantidadProducto();
 			}
 
 			long diferenciaEn_ms = pedidoActual.getFechaPedido().getTime() - new Date().getTime();
-			long horas = TimeUnit.HOURS.convert(diferenciaEn_ms, TimeUnit.MILLISECONDS);
+			long horas = Math.abs(TimeUnit.HOURS.convert(diferenciaEn_ms, TimeUnit.MILLISECONDS));
 
 			// Primer critero de aceptacion
 			if (horas > 5) {
@@ -146,8 +154,10 @@ public class PedidosController {
 				pedidoActual.setUser(newPedido.getUser());
 				pedidoActual.setValueIva(valorProductosNuevos * 0.19);
 				pedidoActual.setValorTotalProductos(valorProductosNuevos);
-				pedidoActual.setTotalPedido(pedidoActual.getValueIva() + pedidoActual.getValorDomiciolio() + valorProductosNuevos);
+				pedidoActual.setTotalPedido(
+						pedidoActual.getValueIva() + pedidoActual.getValorDomiciolio() + valorProductosNuevos);
 				pedidoActual.setFechaPedido(new Date());
+				pedidoActual.setEstados(Estados.MODIFICADO);
 
 				pedidoOutPutDto.setMensaje("El pedido fue actualizado exitosamente.");
 				pedidoOutPutDto.setPedido(pedidoActual);
@@ -167,8 +177,10 @@ public class PedidosController {
 					pedidoActual.setUser(newPedido.getUser());
 					pedidoActual.setValueIva(valorProductosNuevos * 0.19);
 					pedidoActual.setValorTotalProductos(valorProductosNuevos);
-					pedidoActual.setTotalPedido((double)pedidoActual.getValueIva() + pedidoActual.getValorDomiciolio() + valorProductosNuevos);
+					pedidoActual.setTotalPedido((double) pedidoActual.getValueIva() + pedidoActual.getValorDomiciolio()
+							+ valorProductosNuevos);
 					pedidoActual.setFechaPedido(new Date());
+					pedidoActual.setEstados(Estados.MODIFICADO);
 
 					data.actualizarPedido(pedidoActual);
 
@@ -179,7 +191,7 @@ public class PedidosController {
 				} else {
 					pedidoOutPutDto.setMensaje(
 							"El pedido solo es actualizable antes de transcurrir 5 horas si el monto es igual o mayor al anterior pedido, si no es asi por "
-									+ "por favor espere que transcurra minimo 5 horas, Nota: Horas actuales transcurridas.: "
+									+ "por favor espere que transcurra minimo 5 horas, Nota: Horas actuales transcurridas: "
 									+ horas);
 					pedidoOutPutDto.setPedido(null);
 					return new ResponseEntity<>(pedidoOutPutDto, HttpStatus.ACCEPTED);
@@ -196,4 +208,44 @@ public class PedidosController {
 
 	}
 
+	@RequestMapping(value = "/cancelarPedido/{id}", method = RequestMethod.POST)
+	public ResponseEntity<FacturaCanceladoDto> cancelarPedido(@PathVariable Integer id) {
+
+		FacturaCanceladoDto facturaCanceladoDto = new FacturaCanceladoDto();
+
+		// Se recupera el pedido de la base de datos
+		Pedido pedidoActual = data.getPedido(id);
+
+		// Se verifica que el pedido exista
+		if (pedidoActual != null) {
+
+			long diferenciaEn_ms = pedidoActual.getFechaPedido().getTime() - new Date().getTime();
+			long horas = Math.abs(TimeUnit.HOURS.convert(diferenciaEn_ms, TimeUnit.MILLISECONDS));
+
+			if (horas >= 12) {
+
+				facturaCanceladoDto.setUser(pedidoActual.getUser());
+				facturaCanceladoDto.setPagoPorCancelar(pedidoActual.getTotalPedido() * 0.10);
+				facturaCanceladoDto.setMensaje(	"Pedido cancelado, se facturo el 10% del pedido ya que cancelo despues de 12 horas de realizarlo.");
+				
+				pedidoActual.setEstados(Estados.CANCELADO);
+				data.actualizarPedido(pedidoActual);
+
+				return new ResponseEntity<>(facturaCanceladoDto, HttpStatus.CREATED);
+			} else {
+				
+				facturaCanceladoDto.setUser(pedidoActual.getUser());
+				facturaCanceladoDto.setPagoPorCancelar((double) 0);
+				facturaCanceladoDto.setMensaje("Pedido cancelado");
+				pedidoActual.setEstados(Estados.CANCELADO);
+				data.actualizarPedido(pedidoActual);
+				return new ResponseEntity<>(facturaCanceladoDto, HttpStatus.CREATED);
+			}
+		} else {
+
+			facturaCanceladoDto.setMensaje("No se encuentra el pedido con el id " + id);
+			return new ResponseEntity<>(facturaCanceladoDto, HttpStatus.NOT_FOUND);
+		}
+
+	}
 }

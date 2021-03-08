@@ -9,6 +9,7 @@ import com.example.pedidos.models.Usuario;
 //Mapas para simular la base de datos
 public class Datasource {
 
+	//TODO varibale sin usar, por si se desea registrar usuarios
 	HashMap<String,Usuario> mapUsers;
 
     HashMap<Integer,Pedido>mapPedidos;
@@ -28,6 +29,7 @@ public class Datasource {
 	public void inicialezarDatos() {
 		//mapUsers.put("12345", new Usuario("12345", "11#14-08"));
 
+		// PRODUCTOS DISPONIBLES PARA LAS PRUEBAS
 		mapProductos.put(id, new Producto(2000.00, "Item 1"));
 		id++;
 		mapProductos.put(id, new Producto(30000.00, "Item 2"));
@@ -45,6 +47,7 @@ public class Datasource {
 		pedido.setId(id);
 		mapPedidos.putIfAbsent(id, pedido);
 	}
+
 
 	public void eliminarPedido(Integer id) {
 		mapPedidos.remove(id);
@@ -65,5 +68,7 @@ public class Datasource {
 	public Producto getProducto(int key) {
 		return mapProductos.get(key);
 	}
+
+	
 
 }

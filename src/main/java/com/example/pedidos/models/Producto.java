@@ -5,7 +5,6 @@ public class Producto {
 	
 	private Integer id;
 	private Double precio;
-	
 	private String nombre;
 	
 	public Producto() {
