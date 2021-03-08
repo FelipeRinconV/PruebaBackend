@@ -36,7 +36,7 @@ public class PedidosController {
 
 			Usuario user = pedidoInput.getUser();
 			// Se verifica el caso de uso
-			String dire = pedidoInput.getUser().getDireccion().replaceAll(" ", "");
+			String dire = pedidoInput.getUser().getDireccion().replaceAll("\\s+","");
 
 			if (user.getCedula().equals("12345") && dire.equals("11#14-08")) {
 
@@ -95,7 +95,7 @@ public class PedidosController {
 				}
 			} else {
 				pedidoOuput.setPedido(null);
-				pedidoOuput.setMensaje("No se especifico caso de uso para estos parametrosl.");
+				pedidoOuput.setMensaje("No se especifico caso de uso para estos parametros de usuario: "+ user.getCedula() +", " + user.getDireccion());
 				return new ResponseEntity<>(pedidoOuput, HttpStatus.NOT_IMPLEMENTED);
 			}
 
