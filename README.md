@@ -6,8 +6,10 @@ Para facilitar las pruebas he documentado el projecto con swagger ui.
 Ruta de swagger ui  (http://localhost:8080/swagger-ui.html#/)
 
 Productos de prueba se encuentran en el en el data source
+
 **PRODUCTOS DISPONIBLES PARA LAS PRUEBAS**
-    id=1;
+
+id=1;
 mapProductos.put(id, new Producto(2000.00, "Item 1"));
 id++;
 mapProductos.put(id, new Producto(30000.00, "Item 2"));
