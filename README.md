@@ -1,7 +1,7 @@
 # PruebaBackend
 
-
-Para facilitar las pruebas he documentado el projecto con swagger ui.
+Codigo de aplicante luis felipe rincon.
+Me disculpo por no realizar las pruebas unitarias debido a percances no pude dedicar mucho timepo a realizar la prueba,para facilitar la revision  he documentado el proyecto con swagger ui.
 
 Ruta de swagger ui  (http://localhost:8080/swagger-ui.html#/)
 
