@@ -26,7 +26,7 @@ public class Datasource {
 	}
 
 	public void inicialezarDatos() {
-		mapUsers.put("12345", new Usuario("12345", "11#14-08"));
+		//mapUsers.put("12345", new Usuario("12345", "11#14-08"));
 
 		mapProductos.put(id, new Producto(2000.00, "Item 1"));
 		id++;
@@ -37,8 +37,6 @@ public class Datasource {
 		mapProductos.put(id, new Producto(25000.00, "Item 4"));
 		id++;
 		mapProductos.put(id, new Producto(50.000, "Item 4"));
-		
-		
 		
 	}
 

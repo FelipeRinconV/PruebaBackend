@@ -11,13 +11,14 @@ public class Pedido {
 
 	private Integer id;
 	private Usuario user;
-    private Double totalPedido;
+    
 	private Date fechaPedido;
 	private List<LineaPedido> listaProductos;
-	private Double valorDomiciolio;
 	
+	private Double valorTotalProductos;
+	private Double valorDomicilio;
 	private Double valueIva;
-	
+	private Double totalPedido;
 	
 
 	public Pedido(Usuario user, Double totalPedido, Date fechaPedido, List<LineaPedido> listaProductos) {
@@ -66,11 +67,11 @@ public class Pedido {
 	}
 
 	public Double getValorDomiciolio() {
-		return valorDomiciolio;
+		return valorDomicilio;
 	}
 
 	public void setValorDomiciolio(Double valorDomiciolio) {
-		this.valorDomiciolio = valorDomiciolio;
+		this.valorDomicilio = valorDomiciolio;
 	}
 
 	public Double getValueIva() {
@@ -88,11 +89,16 @@ public class Pedido {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public Double getValorTotalProductos() {
+		return valorTotalProductos;
+	}
+
+	public void setValorTotalProductos(Double valorTotalProductos) {
+		this.valorTotalProductos = valorTotalProductos;
+	}
 	
-	
-	
-	
-	
+
 	
 	
 

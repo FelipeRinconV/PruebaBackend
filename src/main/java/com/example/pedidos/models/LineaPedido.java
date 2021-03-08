@@ -3,23 +3,12 @@ package com.example.pedidos.models;
 public class LineaPedido {
 
 	
-	private Integer idLinePedido;
 	private Integer IdProducto;
 	private int cantidadProducto;
 
 
 	public LineaPedido() {
 		super();
-	}
-
-
-	public Integer getIdLinePedido() {
-		return idLinePedido;
-	}
-
-
-	public void setIdLinePedido(Integer idLinePedido) {
-		this.idLinePedido = idLinePedido;
 	}
 
 
