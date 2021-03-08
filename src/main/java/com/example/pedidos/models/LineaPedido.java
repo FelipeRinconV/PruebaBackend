@@ -2,47 +2,49 @@ package com.example.pedidos.models;
 
 public class LineaPedido {
 
-	private Producto producto;
 	
-	private int cantidadPedido;
+	private Integer idLinePedido;
+	private Integer IdProducto;
+	private int cantidadProducto;
 
-	private double ivaProducto;
-	
 
 	public LineaPedido() {
 		super();
 	}
 
-	public LineaPedido(Producto producto, int cantidadPedido, double ivaProducto) {
-		super();
-		this.producto = producto;
-		this.cantidadPedido = cantidadPedido;
-		this.ivaProducto = ivaProducto;
+
+	public Integer getIdLinePedido() {
+		return idLinePedido;
 	}
 
-	public Producto getProducto() {
-		return producto;
+
+	public void setIdLinePedido(Integer idLinePedido) {
+		this.idLinePedido = idLinePedido;
 	}
 
-	public void setProducto(Producto producto) {
-		this.producto = producto;
+
+	public Integer getIdProducto() {
+		return IdProducto;
 	}
 
-	public int getCantidadPedido() {
-		return cantidadPedido;
+
+	public void setIdProducto(Integer idProducto) {
+		IdProducto = idProducto;
 	}
 
-	public void setCantidadPedido(int cantidadPedido) {
-		this.cantidadPedido = cantidadPedido;
+
+	public int getCantidadProducto() {
+		return cantidadProducto;
 	}
 
-	public double getIvaProducto() {
-		return ivaProducto;
+
+	public void setCantidadProducto(int cantidadProducto) {
+		this.cantidadProducto = cantidadProducto;
 	}
 
-	public void setIvaProducto(double ivaProducto) {
-		this.ivaProducto = ivaProducto;
-	}
+	
+
+  
 	
 	
 	

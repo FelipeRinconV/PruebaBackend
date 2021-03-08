@@ -1,4 +1,6 @@
-package com.example.pedidos.models;
+package com.example.pedidos.dto;
+
+import com.example.pedidos.models.Pedido;
 
 public class PedidoOutPutDto {
 

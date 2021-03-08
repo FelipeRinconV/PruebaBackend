@@ -9,14 +9,11 @@ import java.util.List;
 public class Pedido {
 	
 
+	private Integer id;
 	private Usuario user;
-
     private Double totalPedido;
-	
 	private Date fechaPedido;
-	
 	private List<LineaPedido> listaProductos;
-	
 	private Double valorDomiciolio;
 	
 	private Double valueIva;
@@ -83,6 +80,16 @@ public class Pedido {
 	public void setValueIva(Double valueIva) {
 		this.valueIva = valueIva;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	
 	
 	
 	

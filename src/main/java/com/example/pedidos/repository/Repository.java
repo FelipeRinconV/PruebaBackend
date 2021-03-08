@@ -9,9 +9,9 @@ import com.example.pedidos.models.Usuario;
 public interface Repository {
 	
 
-	Pedido createOrde(String cedula,String direccion, List<Integer> idProductos);
+	Pedido crearPedido(String cedula,String direccion, List<Integer> idProductos);
 
-	Pedido createOrder(Usuario user,Pedido pedido);
+	Pedido inser(Usuario user,Pedido pedido);
 	
 	Pedido updatedOrder(Usuario user,Pedido peido);
 	

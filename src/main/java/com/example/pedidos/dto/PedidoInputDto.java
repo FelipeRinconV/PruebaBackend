@@ -1,6 +1,9 @@
-package com.example.pedidos.models;
+package com.example.pedidos.dto;
 
 import java.util.List;
+
+import com.example.pedidos.models.LineaPedido;
+import com.example.pedidos.models.Usuario;
 
 public class PedidoInputDto {
 

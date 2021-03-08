@@ -3,11 +3,10 @@ package com.example.pedidos.models;
 public class Producto {
 
 	
+	private Integer id;
 	private Double precio;
 	
 	private String nombre;
-
-	
 	
 	public Producto() {
 		super();
@@ -33,6 +32,14 @@ public class Producto {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
